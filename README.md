@@ -22,7 +22,7 @@ If you want to get involved and write some code then follow these steps to contr
 1. Fork the repository
 1. Clone the repository to your local environment
 1. Make sure you have [Rust](https://www.rust-lang.org/) installed
-1. Run the tests to make sure that everything is working as expected
+1. Run the tests with the command `cargo test` to make sure that everything is working as expected
 1. Make your changes locally
 1. Add tests for any code you write
 1. Add documentation for any code you write
@@ -37,4 +37,4 @@ We are more than happy to have documentation pull-requests, they are a great way
 
 ## Using the Library
 
-Coming soon
+You can run an example to show how to use the library with the command `cargo run --example <example name>
