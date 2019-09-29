@@ -8,7 +8,7 @@ Are there GGEZ utility crates already? Of course there are. But this one is spec
 
 ## Code of Conduct
 
-Coming soon, for now we are all in this together so lets be as awesome to each other as possible!
+We are using the Brooks Builds [code of conduct](https://github.com/brooks-builds/code_of_conduct).
 
 ## Contributing
 
