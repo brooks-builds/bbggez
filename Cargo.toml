@@ -6,7 +6,7 @@ edition = "2018"
 description = "Utility functions by the Brooks Builds community for the Rust game engine GGEZ"
 repository = "https://github.com/brooks-builds/bbggez"
 readme = "README.md"
-keywords = ["Brooks Builds", "GGEZ", "Utility"]
+keywords = ["Brooks_Builds", "GGEZ", "Utility"]
 categories = ["game-engines"]
 license = "MIT"
 
