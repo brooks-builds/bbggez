@@ -16,6 +16,8 @@ There are many ways to contibute to this project. The easiest way is to submit a
 
 If you want to get involved and write some code then follow these steps to contribute.
 
+It doesn't matter what level of developer you or how much Rust you know. If you want to pair with a community member please mention this in the comments and I can pair with you.
+
 1. Find an issue that isn't currently being worked on that sounds interesting (there will be a comment stating that the developer is working on the issue if it is being worked on)
 1. Write a comment stating that you're going to work on the issue
 1. Feel free to ask any clarifying questions about the issue. It is possible that some issues won't have pull requests accepted as they don't match the direction that we want to go with the project.
