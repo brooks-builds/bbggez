@@ -1,25 +1,20 @@
 extern crate bbggez;
 
-use ggez::{
-	ContextBuilder, graphics, event, Context, GameResult, timer,
-	event::EventHandler,
-	nalgebra::Point2,
-	graphics::{Color, MeshBuilder, DrawMode}
+use bbggez::ggez::{
+	event, event::EventHandler, graphics, graphics::Color, nalgebra::Point2, timer, Context,
+	ContextBuilder, GameResult,
 };
-use bbggez::Utility;
+
+use bbggez::{color::random_dark_color, mesh::create_circle};
 
 struct Game {
-	utility: Utility,
-	color: Color
+	color: Color,
 }
 
 impl Game {
 	pub fn new(_context: &mut Context) -> Game {
-		let mut utility = Utility::new();
-
 		Game {
-			utility,
-			color: utility.random_dark_color()
+			color: random_dark_color(),
 		}
 	}
 }
@@ -27,7 +22,7 @@ impl Game {
 impl EventHandler for Game {
 	fn update(&mut self, context: &mut Context) -> GameResult<()> {
 		if timer::ticks(context) % 1000 == 0 {
-			self.color = self.utility.random_dark_color();
+			self.color = random_dark_color();
 		}
 
 		Ok(())
@@ -38,9 +33,7 @@ impl EventHandler for Game {
 
 		let (width, height) = graphics::drawable_size(context);
 
-		let circle = MeshBuilder::new()
-			.circle(DrawMode::fill(), Point2::new(width / 2.0, height / 2.0), 200.0, 0.1, self.color)
-			.build(context)?;
+		let circle = create_circle(width / 2.0, height / 2.0, 200.0, self.color, context);
 
 		graphics::draw(context, &circle, (Point2::new(0.0, 0.0),))?;
 

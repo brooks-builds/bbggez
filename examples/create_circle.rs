@@ -1,7 +1,6 @@
 extern crate bbggez;
 
-use bbggez::Utility;
-use ggez::{
+use bbggez::ggez::{
 	event,
 	event::EventHandler,
 	graphics,
@@ -10,18 +9,19 @@ use ggez::{
 	timer, Context, ContextBuilder, GameResult,
 };
 
+use bbggez::{
+	mesh::create_circle,
+	color::random_dark_color
+};
+
 struct Game {
-	utility: Utility,
 	color: Color,
 }
 
 impl Game {
 	pub fn new(_context: &mut Context) -> Game {
-		let mut utility = Utility::new();
-
 		Game {
-			utility,
-			color: utility.random_dark_color(),
+			color: random_dark_color(),
 		}
 	}
 }
@@ -29,7 +29,7 @@ impl Game {
 impl EventHandler for Game {
 	fn update(&mut self, context: &mut Context) -> GameResult<()> {
 		if timer::ticks(context) % 1000 == 0 {
-			self.color = self.utility.random_dark_color();
+			self.color = random_dark_color();
 		}
 
 		Ok(())
@@ -40,9 +40,7 @@ impl EventHandler for Game {
 
 		let (width, height) = graphics::drawable_size(context);
 
-		let circle = self
-			.utility
-			.create_circle(width / 2.0, height / 2.0, 200.0, self.color, context);
+		let circle = create_circle(width / 2.0, height / 2.0, 200.0, self.color, context);
 
 		graphics::draw(context, &circle, (Point2::new(0.0, 0.0),))?;
 
