@@ -1,6 +1,6 @@
 [package]
 name = "bbggez"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Brooks Patton"]
 edition = "2018"
 description = "Utility functions by the Brooks Builds community for the Rust game engine GGEZ"
