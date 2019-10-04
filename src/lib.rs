@@ -1,3 +1,5 @@
+pub extern crate ggez;
+
 use rand::prelude::*;
 use ggez::graphics::Color;
 
@@ -15,7 +17,7 @@ impl Utility {
 		}
 	}
 
-	/// Creates a random color with a minimum of 200 for red, green, and blue (on a range of 0-255) to ensure that 
+	/// Creates a random color with a minimum of 200 for red, green, and blue (on a range of 0-255) to ensure that
 	/// the colors are bright enough for darker backgrounds
 	pub fn random_bright_color(&mut self) -> Color {
 		Color::from_rgb(self.rng.gen_range(175, 255), self.rng.gen_range(175, 255), self.rng.gen_range(175, 255))
