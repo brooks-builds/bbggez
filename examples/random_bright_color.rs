@@ -1,16 +1,18 @@
 extern crate bbggez;
 
 use ggez::{
-	ContextBuilder, graphics, event, Context, GameResult, timer,
+	ContextBuilder, graphics, event, Context, GameResult,
 	event::EventHandler,
 	nalgebra::Point2,
-	graphics::{Color, MeshBuilder, DrawMode}
+	graphics::{Color, MeshBuilder, DrawMode},
+  timer::{delta, duration_to_f64},
 };
 use bbggez::Utility;
 
 struct Game {
 	utility: Utility,
-	color: Color
+	color: Color,
+  timer: f64,
 }
 
 impl Game {
@@ -19,15 +21,18 @@ impl Game {
 
 		Game {
 			utility,
-			color: utility.random_bright_color()
+			color: utility.random_bright_color(),
+      timer: 1.0,
 		}
 	}
 }
 
 impl EventHandler for Game {
 	fn update(&mut self, context: &mut Context) -> GameResult<()> {
-		if timer::ticks(context) % 1000 == 0 {
+    self.timer = self.timer - duration_to_f64(delta(context));
+		if self.timer <= 0.0 {
 			self.color = self.utility.random_bright_color();
+      self.timer = 1.0;
 		}
 
 		Ok(())
