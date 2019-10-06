@@ -1,11 +1,10 @@
 use ggez::{
-    graphics::{Color, DrawMode, Mesh, MeshBuilder, Rect},
-    nalgebra::Point2,
-    Context,
-    ContextBuilder,
     conf::Conf,
     event,
-    event::EventHandler
+    event::EventHandler,
+    graphics::{Color, DrawMode, Mesh, MeshBuilder, Rect},
+    nalgebra::Point2,
+    Context, ContextBuilder,
 };
 use rand::prelude::*;
 
