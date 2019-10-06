@@ -2,36 +2,38 @@ extern crate bbggez;
 
 use bbggez::Utility;
 use ggez::{
-    event,
-    event::EventHandler,
-    graphics,
-    graphics::{Color, DrawMode, MeshBuilder},
-    nalgebra::Point2,
-    timer, Context, ContextBuilder, GameResult,
+	ContextBuilder, graphics, event, Context, GameResult,
+	event::EventHandler,
+	nalgebra::Point2,
+	graphics::{Color, MeshBuilder, DrawMode},
+  timer::{delta, duration_to_f64},
 };
 
 struct Game {
-    utility: Utility,
-    color: Color,
+	utility: Utility,
+	color: Color,
+  timer: f64,
 }
 
 impl Game {
-    pub fn new(_context: &mut Context) -> Game {
-        let mut utility = Utility::new();
+	pub fn new(_context: &mut Context) -> Game {
+		let mut utility = Utility::new();
 
-        Game {
-            utility,
-            color: utility.random_bright_color(),
-        }
-    }
+		Game {
+			utility,
+			color: utility.random_bright_color(),
+      timer: 1.0,
+		}
+	}
 }
 
 impl EventHandler for Game {
-    fn update(&mut self, context: &mut Context) -> GameResult<()> {
-        if timer::ticks(context) % 1000 == 0 {
-            self.color = self.utility.random_bright_color();
-        }
-
+	fn update(&mut self, context: &mut Context) -> GameResult<()> {
+    self.timer = self.timer - duration_to_f64(delta(context));
+		if self.timer <= 0.0 {
+			self.color = self.utility.random_bright_color();
+      self.timer = 1.0;
+		}
         Ok(())
     }
 
@@ -57,13 +59,13 @@ impl EventHandler for Game {
 }
 
 fn main() {
-    let (mut context, mut event_loop) = ContextBuilder::new("Random color example", "Brookzerker")
-        .build()
-        .expect("Game context was not able to be created");
-    let mut game = Game::new(&mut context);
+	let (mut context, mut event_loop) = ContextBuilder::new("Random color example", "Brookzerker")
+		.build()
+		.expect("Game context was not able to be created");
+	let mut game = Game::new(&mut context);
 
-    match event::run(&mut context, &mut event_loop, &mut game) {
-        Ok(_) => println!("Exited cleanly"),
-        Err(error) => println!("Error occured: {}", error),
-    };
+	match event::run(&mut context, &mut event_loop, &mut game) {
+		Ok(_) => println!("Exited cleanly"),
+		Err(error) => println!("Error occured: {}", error),
+	};
 }
