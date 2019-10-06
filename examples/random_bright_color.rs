@@ -1,5 +1,6 @@
 extern crate bbggez;
 
+use bbggez::Utility;
 use ggez::{
 	ContextBuilder, graphics, event, Context, GameResult,
 	event::EventHandler,
@@ -7,7 +8,6 @@ use ggez::{
 	graphics::{Color, MeshBuilder, DrawMode},
   timer::{delta, duration_to_f64},
 };
-use bbggez::Utility;
 
 struct Game {
 	utility: Utility,
@@ -34,23 +34,28 @@ impl EventHandler for Game {
 			self.color = self.utility.random_bright_color();
       self.timer = 1.0;
 		}
+        Ok(())
+    }
 
-		Ok(())
-	}
+    fn draw(&mut self, context: &mut Context) -> GameResult<()> {
+        graphics::clear(context, graphics::BLACK);
 
-	fn draw(&mut self, context: &mut Context) -> GameResult<()> {
-		graphics::clear(context, graphics::BLACK);
+        let (width, height) = graphics::drawable_size(context);
 
-		let (width, height) = graphics::drawable_size(context);
+        let circle = MeshBuilder::new()
+            .circle(
+                DrawMode::fill(),
+                Point2::new(width / 2.0, height / 2.0),
+                200.0,
+                0.1,
+                self.color,
+            )
+            .build(context)?;
 
-		let circle = MeshBuilder::new()
-			.circle(DrawMode::fill(), Point2::new(width / 2.0, height / 2.0), 200.0, 0.1, self.color)
-			.build(context)?;
+        graphics::draw(context, &circle, (Point2::new(0.0, 0.0),))?;
 
-		graphics::draw(context, &circle, (Point2::new(0.0, 0.0),))?;
-
-		graphics::present(context)
-	}
+        graphics::present(context)
+    }
 }
 
 fn main() {

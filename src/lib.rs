@@ -1,13 +1,37 @@
+use ggez::{
+    conf::Conf,
+    event,
+    event::EventHandler,
+    graphics::{Color, DrawMode, Mesh, MeshBuilder, Rect},
+    nalgebra::Point2,
+    Context, ContextBuilder,
+};
+use rand::prelude::*;
+
 pub extern crate ggez;
 extern crate palette;
 
-use rand::prelude::*;
-use ggez::graphics::Color;
-use palette::{Hsl, rgb::LinSrgb};
+pub fn run<T: EventHandler>(game: &mut T, title: &str, author: &str) {
+    let mut conf = Conf::new();
+    conf.window_mode = conf
+        .window_mode
+        .dimensions(1860.0 / 2.0, 1015.0)
+        .resizable(true);
+    conf.window_setup = conf.window_setup.title(title);
+    let (mut context, mut event_loop) = ContextBuilder::new(title, author)
+        .conf(conf)
+        .build()
+        .expect("Game context was not able to be created");
+
+    match event::run::<T>(&mut context, &mut event_loop, game) {
+        Ok(_) => println!("Exited cleanly"),
+        Err(error) => println!("Error occured: {}", error),
+    };
+}
 
 #[derive(Copy, Clone)]
 pub struct Utility {
-	pub rng: ThreadRng
+    rng: ThreadRng,
 }
 
 /// the main utility that we are using for everything
@@ -30,11 +54,56 @@ impl Utility {
     let color: LinSrgb = Hsl::new(self.rng.gen_range(0.0, 360.0), 1.0, 0.2).into();
 		Color::from_rgb((color.red * 255.0) as u8, (color.green * 255.0) as u8, (color.blue * 255.0) as u8)
 	}
+
+    pub fn create_circle(
+        &mut self,
+        x: f32,
+        y: f32,
+        radius: f32,
+        color: Color,
+        ctx: &mut Context,
+    ) -> Mesh {
+        MeshBuilder::new()
+            .circle(DrawMode::fill(), Point2::new(x, y), radius, 0.01, color)
+            .build(ctx)
+            .unwrap()
+    }
+
+    pub fn create_rect(
+        &mut self,
+        x: f32,
+        y: f32,
+        width: f32,
+        height: f32,
+        color: Color,
+        ctx: &mut Context,
+    ) -> Mesh {
+        let rect = Rect::new(x, y, width, height);
+        MeshBuilder::new()
+            .rectangle(DrawMode::fill(), rect, color)
+            .build(ctx)
+            .unwrap()
+    }
+
+    pub fn create_square(
+        &mut self,
+        x: f32,
+        y: f32,
+        side: f32,
+        color: Color,
+        ctx: &mut Context,
+    ) -> Mesh {
+        let rect = Rect::new(x, y, side, side);
+        MeshBuilder::new()
+            .rectangle(DrawMode::fill(), rect, color)
+            .build(ctx)
+            .unwrap()
+    }
 }
 
 #[cfg(test)]
 mod tests {
-	use super::*;
+    use super::*;
 
     #[test]
     fn creates_a_random_color() {
