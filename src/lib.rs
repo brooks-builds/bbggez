@@ -6,11 +6,30 @@ use ggez::{
 
 pub extern crate ggez;
 
+use ggez::{conf::Conf, event, event::EventHandler, graphics::Color, ContextBuilder};
 use rand::prelude::*;
+
+pub fn run<T: EventHandler>(game: &mut T, title: &str, author: &str) {
+    let mut conf = Conf::new();
+    conf.window_mode = conf
+        .window_mode
+        .dimensions(1860.0 / 2.0, 1015.0)
+        .resizable(true);
+    conf.window_setup = conf.window_setup.title(title);
+    let (mut context, mut event_loop) = ContextBuilder::new(title, author)
+        .conf(conf)
+        .build()
+        .expect("Game context was not able to be created");
+
+    match event::run::<T>(&mut context, &mut event_loop, game) {
+        Ok(_) => println!("Exited cleanly"),
+        Err(error) => println!("Error occured: {}", error),
+    };
+}
 
 #[derive(Copy, Clone)]
 pub struct Utility {
-	rng: ThreadRng,
+    rng: ThreadRng,
 }
 
 /// the main utility that we are using for everything
@@ -89,7 +108,7 @@ impl Utility {
 
 #[cfg(test)]
 mod tests {
-	use super::*;
+    use super::*;
 
 	#[test]
 	fn creates_a_random_color() {
