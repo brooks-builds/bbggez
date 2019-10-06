@@ -3,6 +3,9 @@ use ggez::{
 	nalgebra::Point2,
 	Context,
 };
+
+pub extern crate ggez;
+
 use rand::prelude::*;
 
 #[derive(Copy, Clone)]
