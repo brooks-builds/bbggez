@@ -2,12 +2,14 @@ use ggez::{
     graphics::{Color, DrawMode, Mesh, MeshBuilder, Rect},
     nalgebra::Point2,
     Context,
+    ContextBuilder,
+    conf::Conf,
+    event,
+    event::EventHandler
 };
+use rand::prelude::*;
 
 pub extern crate ggez;
-
-use ggez::{conf::Conf, event, event::EventHandler, graphics::Color, ContextBuilder};
-use rand::prelude::*;
 
 pub fn run<T: EventHandler>(game: &mut T, title: &str, author: &str) {
     let mut conf = Conf::new();
