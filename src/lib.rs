@@ -108,6 +108,32 @@ impl Utility {
             .build(ctx)
             .unwrap()
     }
+
+    /// Returns a random (x, y) tuple that is located within the specified width and height.
+    ///
+    /// The x value will be in the range [0, `width`), i.e. inclusive of 0 and exclusive of `width`.
+    /// The y value will be in the range [0, `height`), i.e. inclusive of 0 and exclusive of `height`.
+    ///
+    /// # Arguments
+    /// * `width` - The width of the area
+    /// * `height` - The height of the area
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # let mut utility = bbggez::Utility::new();
+    ///
+    /// let width = 100f32;
+    /// let height = 100f32;
+    /// let (x, y) = utility.random_location(width, height);
+    /// println!("X: {}, Y: {}", x, y);
+    /// ```
+    pub fn random_location(&mut self, width: f32, height: f32) -> (f32, f32) {
+        let area_x: f32 = self.rng.gen_range(0.0f32, width);
+        let area_y: f32 = self.rng.gen_range(0.0f32, height);
+
+        (area_x, area_y)
+    }
 }
 
 #[cfg(test)]
@@ -135,5 +161,22 @@ mod tests {
         assert_eq!(color.a, 1.0);
 
         assert!(color.r + color.g + color.b != another_color.r + another_color.g + another_color.b);
+    }
+
+    #[test]
+    fn generates_random_location() {
+        let mut utility = Utility::new();
+        let width = 100.0f32;
+        let height = 100.0f32;
+
+        let (first_x, first_y) = utility.random_location(width, height);
+        let (second_x, second_y) = utility.random_location(width, height);
+
+        assert_ne!(first_x, second_x);
+        assert_ne!(first_y, second_y);
+        assert!(first_x < width && first_x >= 0f32);
+        assert!(first_y < height && first_y >= 0f32);
+        assert!(second_x < width && second_x >= 0f32);
+        assert!(second_y < height && second_y >= 0f32);
     }
 }
