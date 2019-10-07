@@ -11,6 +11,7 @@ use rand::prelude::*;
 
 pub extern crate ggez;
 extern crate palette;
+pub extern crate rand;
 
 pub fn run<T: EventHandler>(game: &mut T, title: &str, author: &str) {
     let mut conf = Conf::new();
