@@ -1,27 +1,27 @@
-use ggez::{
-	graphics::Color
-};
+use ggez::graphics::Color;
+
+use crate::palette::{Hsl, LinSrgb};
 
 use rand::prelude::*;
 
-
 pub fn random_bright_color() -> Color {
   let mut rng = rand::thread_rng();
+  let color: LinSrgb = Hsl::new(rng.gen_range(0.0, 360.0), 1.0, 0.8).into();
 
   Color::from_rgb(
-    rng.gen_range(175, 255),
-    rng.gen_range(175, 255),
-    rng.gen_range(175, 255),
+    (color.red * 255.0) as u8,
+    (color.green * 255.0) as u8,
+    (color.blue * 255.0) as u8,
   )
 }
 
 pub fn random_dark_color() -> Color {
   let mut rng = rand::thread_rng();
+  let color: LinSrgb = Hsl::new(rng.gen_range(0.0, 360.0), 1.0, 0.2).into();
 
-  Color::new(
-    rng.gen_range(0.0, 0.51),
-    rng.gen_range(0.0, 0.51),
-    rng.gen_range(0.0, 0.51),
-    1.0,
+  Color::from_rgb(
+    (color.red * 255.0) as u8,
+    (color.green * 255.0) as u8,
+    (color.blue * 255.0) as u8,
   )
 }
