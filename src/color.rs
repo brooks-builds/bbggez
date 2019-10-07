@@ -1,8 +1,8 @@
-use ggez::graphics::Color;
-
-use crate::palette::{Hsl, LinSrgb};
-
-use rand::prelude::*;
+use crate::{
+  ggez::graphics::Color, 
+  palette::{Hsl, LinSrgb}, 
+  rand::prelude::Rng,
+};
 
 pub fn random_bright_color() -> Color {
   let mut rng = rand::thread_rng();
