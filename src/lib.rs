@@ -129,8 +129,8 @@ impl Utility {
     /// println!("X: {}, Y: {}", x, y);
     /// ```
     pub fn random_location(&mut self, width: f32, height: f32) -> (f32, f32) {
-        let area_x: f32 = self.rng.gen_range(0.0f32, width);
-        let area_y: f32 = self.rng.gen_range(0.0f32, height);
+        let area_x: f32 = self.rng.gen_range(0.0, width);
+        let area_y: f32 = self.rng.gen_range(0.0, height);
 
         (area_x, area_y)
     }
