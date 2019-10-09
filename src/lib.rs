@@ -3,7 +3,7 @@ use ggez::{
     event,
     event::EventHandler,
     graphics::{Color, DrawMode, Mesh, MeshBuilder, Rect},
-    nalgebra::Point2,
+    nalgebra::{Point2, Vector2},
     Context, ContextBuilder,
 };
 use palette::{Hsl, LinSrgb};
@@ -109,7 +109,7 @@ impl Utility {
             .unwrap()
     }
 
-    /// Returns a random (x, y) tuple that is located within the specified width and height.
+    /// Returns a random position that is located within the specified width and height.
     ///
     /// The x value will be in the range [0, `width`), i.e. inclusive of 0 and exclusive of `width`.
     /// The y value will be in the range [0, `height`), i.e. inclusive of 0 and exclusive of `height`.
@@ -125,14 +125,14 @@ impl Utility {
     ///
     /// let width = 100f32;
     /// let height = 100f32;
-    /// let (x, y) = utility.random_location(width, height);
-    /// println!("X: {}, Y: {}", x, y);
+    /// let position = utility.random_location(width, height);
+    /// println!("Position: {}", position);
     /// ```
-    pub fn random_location(&mut self, width: f32, height: f32) -> (f32, f32) {
+    pub fn random_location(&mut self, width: f32, height: f32) -> Vector2<f32> {
         let area_x: f32 = self.rng.gen_range(0.0, width);
         let area_y: f32 = self.rng.gen_range(0.0, height);
 
-        (area_x, area_y)
+        Vector2::new(area_x, area_y)
     }
 }
 
@@ -169,14 +169,13 @@ mod tests {
         let width = 100.0f32;
         let height = 100.0f32;
 
-        let (first_x, first_y) = utility.random_location(width, height);
-        let (second_x, second_y) = utility.random_location(width, height);
+        let first = utility.random_location(width, height);
+        let second = utility.random_location(width, height);
 
-        assert_ne!(first_x, second_x);
-        assert_ne!(first_y, second_y);
-        assert!(first_x < width && first_x >= 0f32);
-        assert!(first_y < height && first_y >= 0f32);
-        assert!(second_x < width && second_x >= 0f32);
-        assert!(second_y < height && second_y >= 0f32);
+        assert_ne!(first, second);
+        assert!(first.x < width && first.x >= 0.0);
+        assert!(first.y < height && first.y >= 0.0);
+        assert!(second.x < width && second.x >= 0.0);
+        assert!(second.y < height && second.y >= 0.0);
     }
 }
