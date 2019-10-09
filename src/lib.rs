@@ -166,8 +166,8 @@ mod tests {
     #[test]
     fn generates_random_location() {
         let mut utility = Utility::new();
-        let width = 100.0f32;
-        let height = 100.0f32;
+        let width = 100.0;
+        let height = 100.0;
 
         let first = utility.random_location(width, height);
         let second = utility.random_location(width, height);
