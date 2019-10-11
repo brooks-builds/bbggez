@@ -3,7 +3,7 @@ use ggez::{
     event,
     event::EventHandler,
     graphics::{Color, DrawMode, Mesh, MeshBuilder, Rect},
-    nalgebra::Point2,
+    nalgebra::{Point2, Vector2},
     Context, ContextBuilder,
 };
 use palette::{Hsl, LinSrgb};
@@ -109,6 +109,32 @@ impl Utility {
             .build(ctx)
             .unwrap()
     }
+
+    /// Returns a random position that is located within the specified width and height.
+    ///
+    /// The x value will be in the range [0, `width`), i.e. inclusive of 0 and exclusive of `width`.
+    /// The y value will be in the range [0, `height`), i.e. inclusive of 0 and exclusive of `height`.
+    ///
+    /// # Arguments
+    /// * `width` - The width of the area
+    /// * `height` - The height of the area
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # let mut utility = bbggez::Utility::new();
+    ///
+    /// let width = 100f32;
+    /// let height = 100f32;
+    /// let position = utility.random_location(width, height);
+    /// println!("Position: {}", position);
+    /// ```
+    pub fn random_location(&mut self, width: f32, height: f32) -> Vector2<f32> {
+        let area_x: f32 = self.rng.gen_range(0.0, width);
+        let area_y: f32 = self.rng.gen_range(0.0, height);
+
+        Vector2::new(area_x, area_y)
+    }
 }
 
 #[cfg(test)]
@@ -136,5 +162,21 @@ mod tests {
         assert_eq!(color.a, 1.0);
 
         assert!(color.r + color.g + color.b != another_color.r + another_color.g + another_color.b);
+    }
+
+    #[test]
+    fn generates_random_location() {
+        let mut utility = Utility::new();
+        let width = 100.0;
+        let height = 100.0;
+
+        let first = utility.random_location(width, height);
+        let second = utility.random_location(width, height);
+
+        assert_ne!(first, second);
+        assert!(first.x < width && first.x >= 0.0);
+        assert!(first.y < height && first.y >= 0.0);
+        assert!(second.x < width && second.x >= 0.0);
+        assert!(second.y < height && second.y >= 0.0);
     }
 }
