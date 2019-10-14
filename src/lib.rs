@@ -110,6 +110,18 @@ impl Utility {
             .unwrap()
     }
 
+    pub fn create_triangle(
+        &mut self,
+        points: &[Point2<f32>; 3],
+        color: Color,
+        ctx: &mut Context,
+    ) -> Mesh {
+        MeshBuilder::new()
+            .polygon(DrawMode::fill(), points, color)
+            .unwrap()
+            .build(ctx)
+            .unwrap()
+    }
     /// Returns a random position that is located within the specified width and height.
     ///
     /// The x value will be in the range [0, `width`), i.e. inclusive of 0 and exclusive of `width`.
