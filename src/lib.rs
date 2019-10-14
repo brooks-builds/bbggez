@@ -8,6 +8,3 @@ pub mod color;
 pub mod mesh;
 pub mod run;
 pub mod utils;
-
-#[cfg(test)]
-mod tests;
