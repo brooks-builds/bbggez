@@ -3,7 +3,7 @@ use ggez::{
     event,
     event::EventHandler,
     graphics::{Color, DrawMode, Mesh, MeshBuilder, Rect},
-    nalgebra::{Point2, Vector2, Translation2, Rotation2},
+    nalgebra::{Point2, Rotation2, Translation2, Vector2},
     Context, ContextBuilder,
 };
 use palette::{Hsl, LinSrgb};
@@ -125,14 +125,30 @@ impl Utility {
     }
 
     fn get_equilateral_points(x: f32, y: f32, side: f32) -> [Point2<f32>; 3] {
-        let radius : f32 = side/(3.0 as f32).sqrt();
+        let radius: f32 = side / (3.0 as f32).sqrt();
         let point = Point2::new(0.0, 0.0 - radius);
         let translation = Translation2::new(x, y);
-        [translation*point, translation*(Rotation2::new(2.0*FRAC_PI_3)*point), translation*(Rotation2::new(4.0*FRAC_PI_3)*point)]
+        [
+            translation * point,
+            translation * (Rotation2::new(2.0 * FRAC_PI_3) * point),
+            translation * (Rotation2::new(4.0 * FRAC_PI_3) * point),
+        ]
     }
 
-    pub fn create_equilateral_triangle(&mut self, x: f32, y: f32, side: f32, color: Color, ctx: &mut Context) -> Mesh {
-        Utility::create_triangle(self, &Utility::get_equilateral_points(x, y, side), color, ctx)
+    pub fn create_equilateral_triangle(
+        &mut self,
+        x: f32,
+        y: f32,
+        side: f32,
+        color: Color,
+        ctx: &mut Context,
+    ) -> Mesh {
+        Utility::create_triangle(
+            self,
+            &Utility::get_equilateral_points(x, y, side),
+            color,
+            ctx,
+        )
     }
 
     /// Returns a random position that is located within the specified width and height.

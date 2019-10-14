@@ -37,7 +37,11 @@ impl EventHandler for Game {
         let (width, height) = graphics::drawable_size(context);
 
         let triangle = self.utility.create_equilateral_triangle(
-            width/2.0, height/2.0, 300.0, self.color, context,
+            width / 2.0,
+            height / 2.0,
+            300.0,
+            self.color,
+            context,
         );
 
         graphics::draw(context, &triangle, (Point2::new(0.0, 0.0),))?;
