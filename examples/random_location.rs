@@ -41,13 +41,13 @@ impl EventHandler for Game {
             let mut location = random_location(width / 2.0, height / 2.0);
 
             if rand::random() {
-                location.0 = -location.0;
+                location.x = -location.x;
             }
 
             if rand::random() {
-                location.0 = -location.0;
+                location.y = -location.y;
             }
-            self.point = Point2::new(location.0, location.0);
+            self.point = Point2::new(location.x, location.y);
             self.timer = 1.0;
         }
 
