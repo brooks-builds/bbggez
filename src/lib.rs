@@ -48,11 +48,11 @@ impl Timer {
     pub fn update(&mut self, context: &Context) {
         self.time_left = self.time_left - duration_to_f64(delta(context));
     }
+    pub fn is_time_up(&self) -> bool {
+        self.time_left <= 0.0
+    }
     pub fn reset(&mut self) {
         self.time_left = self.start_time;
-    }
-    pub fn times_up(&self) -> bool {
-        self.time_left <= 0.0
     }
 }
 

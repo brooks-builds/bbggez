@@ -31,7 +31,7 @@ impl Game {
 impl EventHandler for Game {
     fn update(&mut self, context: &mut Context) -> GameResult<()> {
         self.timer.update(context);
-        if self.timer.times_up() {
+        if self.timer.is_time_up() {
             self.color = self.utility.random_bright_color();
             self.timer.reset();
         }
