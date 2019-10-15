@@ -23,5 +23,5 @@ impl EventHandler for Game {
 
 fn main() {
     let mut game = Game::new();
-    run(&mut game, "Runtime", "Brookzerker")
+    run(&mut game, "Runtime", "bbggez")
 }

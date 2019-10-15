@@ -1,11 +1,10 @@
 extern crate bbggez;
 
 use bbggez::ggez::{
-	event, event::EventHandler, graphics, graphics::Color, nalgebra::Point2, Context, ContextBuilder,
-	GameResult,
+	event::EventHandler, graphics, graphics::Color, nalgebra::Point2, Context, GameResult,
 };
 
-use bbggez::{color::random_dark_color, mesh::create_circle, timer::Timer};
+use bbggez::{color::random_dark_color, mesh::create_circle, run::run, timer::Timer};
 
 struct Game {
 	color: Color,
@@ -13,7 +12,7 @@ struct Game {
 }
 
 impl Game {
-	pub fn new(_context: &mut Context) -> Game {
+	pub fn new() -> Game {
 		Game {
 			color: random_dark_color(),
 			timer: Timer::new(1.0),
@@ -46,13 +45,7 @@ impl EventHandler for Game {
 }
 
 fn main() {
-	let (mut context, mut event_loop) = ContextBuilder::new("Random color example", "Brookzerker")
-		.build()
-		.expect("Game context was not able to be created");
-	let mut game = Game::new(&mut context);
+	let mut game = Game::new();
 
-	match event::run(&mut context, &mut event_loop, &mut game) {
-		Ok(_) => println!("Exited cleanly"),
-		Err(error) => println!("Error occured: {}", error),
-	};
+	run(&mut game, "Random Dark Colors", "bbggez");
 }
