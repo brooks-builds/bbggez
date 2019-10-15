@@ -1,20 +1,18 @@
 extern crate bbggez;
 
 use bbggez::{
-  rand,
-  ggez::{
-    event::EventHandler,
-    graphics,
-    graphics::Color,
-    nalgebra::Point2,
-    timer::{delta, duration_to_f64},
-    Context,
-    GameResult
-  },
-  mesh::create_circle,
-  color::random_dark_color,
-  run::run,
-  utils::random_location,
+    color::random_dark_color,
+    ggez::{
+        event::EventHandler,
+        graphics,
+        graphics::Color,
+        nalgebra::Point2,
+        timer::{delta, duration_to_f64},
+        Context, GameResult,
+    },
+    mesh::create_circle,
+    run::run,
+    utils::random_location,
 };
 
 struct Game {
@@ -38,15 +36,7 @@ impl EventHandler for Game {
         let (width, height) = graphics::drawable_size(context);
         self.timer = self.timer - duration_to_f64(delta(context));
         if self.timer <= 0.0 {
-            let mut location = random_location(width / 2.0, height / 2.0);
-
-            if rand::random() {
-                location.x = -location.x;
-            }
-
-            if rand::random() {
-                location.y = -location.y;
-            }
+            let location = random_location(width / 2.0, height / 2.0);
             self.point = Point2::new(location.x, location.y);
             self.timer = 1.0;
         }
