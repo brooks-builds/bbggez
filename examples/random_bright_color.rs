@@ -1,28 +1,38 @@
 extern crate bbggez;
 
 use bbggez::ggez::{
-	event, event::EventHandler, graphics, graphics::Color, nalgebra::Point2, timer, Context,
-	ContextBuilder, GameResult,
+	event, 
+	event::EventHandler, 
+	graphics, 
+	graphics::Color, 
+	nalgebra::Point2, 
+	Context, 
+	ContextBuilder,
+	GameResult,
 };
 
-use bbggez::{color::random_bright_color, mesh::create_circle};
+use bbggez::{color::random_bright_color, mesh::create_circle, timer::Timer};
 
 struct Game {
 	color: Color,
+	timer: Timer
 }
 
 impl Game {
 	pub fn new(_context: &mut Context) -> Game {
 		Game {
 			color: random_bright_color(),
+			timer: Timer::new(1.0)
 		}
 	}
 }
 
 impl EventHandler for Game {
 	fn update(&mut self, context: &mut Context) -> GameResult<()> {
-		if timer::ticks(context) % 1000 == 0 {
+		self.timer.update(context);
+		if self.timer.is_time_up() {
 			self.color = random_bright_color();
+			self.timer.reset();
 		}
 
 		Ok(())
@@ -52,4 +62,3 @@ fn main() {
 		Err(error) => println!("Error occured: {}", error),
 	};
 }
-
