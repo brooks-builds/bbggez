@@ -4,6 +4,7 @@ use ggez::{
     event::EventHandler,
     graphics::{Color, DrawMode, Mesh, MeshBuilder, Rect},
     nalgebra::{Point2, Rotation2, Translation2, Vector2},
+    timer::{delta, duration_to_f64},
     Context, ContextBuilder,
 };
 use palette::{Hsl, LinSrgb};
@@ -30,6 +31,29 @@ pub fn run<T: EventHandler>(game: &mut T, title: &str, author: &str) {
         Ok(_) => println!("Exited cleanly"),
         Err(error) => println!("Error occured: {}", error),
     };
+}
+
+pub struct Timer {
+    start_time: f64,
+    time_left: f64,
+}
+
+impl Timer {
+    pub fn new(start_time: f64) -> Timer {
+        Timer {
+            start_time,
+            time_left: start_time,
+        }
+    }
+    pub fn update(&mut self, context: &Context) {
+        self.time_left = self.time_left - duration_to_f64(delta(context));
+    }
+    pub fn is_time_up(&self) -> bool {
+        self.time_left <= 0.0
+    }
+    pub fn reset(&mut self) {
+        self.time_left = self.start_time;
+    }
 }
 
 #[derive(Copy, Clone)]
