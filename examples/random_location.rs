@@ -1,30 +1,23 @@
 extern crate bbggez;
 
-use bbggez::Utility;
-use ggez::{
-    event::EventHandler,
-    graphics,
-    graphics::Color,
-    nalgebra::Point2,
-    timer::{delta, duration_to_f64},
-    Context, ContextBuilder, GameResult,
-};
+use bbggez::{Timer, Utility};
+use ggez::{event::EventHandler, graphics, graphics::Color, nalgebra::Point2, Context, GameResult};
 
 struct Game {
     utility: Utility,
     color: Color,
-    timer: f64,
+    timer: Timer,
     point: Point2<f32>,
 }
 
 impl Game {
-    pub fn new(_context: &mut Context) -> Game {
+    pub fn new() -> Game {
         let mut utility = Utility::new();
 
         Game {
             utility,
             color: utility.random_dark_color(),
-            timer: 1.0,
+            timer: Timer::new(1.0),
             point: Point2::new(0.0, 0.0),
         }
     }
@@ -32,13 +25,13 @@ impl Game {
 
 impl EventHandler for Game {
     fn update(&mut self, context: &mut Context) -> GameResult<()> {
-        let (width, height) = graphics::drawable_size(context);
-        self.timer = self.timer - duration_to_f64(delta(context));
-        if self.timer <= 0.0 {
+        self.timer.update(context);
+        if self.timer.is_time_up() {
+            let (width, height) = graphics::drawable_size(context);
             let location = self.utility.random_location(width / 2.0, height / 2.0);
 
             self.point = Point2::new(location.x, location.y);
-            self.timer = 1.0;
+            self.timer.reset();
         }
 
         Ok(())
@@ -58,10 +51,6 @@ impl EventHandler for Game {
 }
 
 fn main() {
-    let (mut context, mut _event_loop) =
-        ContextBuilder::new("Random location example", "Brookzerker")
-            .build()
-            .expect("Game context was not able to be created");
-    let mut game = Game::new(&mut context);
+    let mut game = Game::new();
     bbggez::run(&mut game, "Random location example", "Brookzerker");
 }
