@@ -1,6 +1,6 @@
 extern crate bbggez;
 use bbggez::ggez::{event::EventHandler, graphics, Context, GameResult};
-use bbggez::run::run;
+use bbggez::run::run_dim;
 
 struct Game {}
 
@@ -23,5 +23,5 @@ impl EventHandler for Game {
 
 fn main() {
     let mut game = Game::new();
-    run(&mut game, "Runtime", "bbggez")
+    run_dim(&mut game, 400.0, 800.0, "Runtime", "bbggez")
 }

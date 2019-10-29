@@ -1,31 +1,33 @@
 extern crate bbggez;
 
-use bbggez::Utility;
-use ggez::{
-    event, event::EventHandler, graphics, graphics::Color, nalgebra::Point2, timer, Context,
-    ContextBuilder, GameResult,
+use bbggez::{
+    color::random_bright_color,
+    ggez::{event::EventHandler, graphics, graphics::Color, nalgebra::Point2, Context, GameResult},
+    mesh::create_equilateral_triangle,
+    run::run,
+    timer::Timer,
 };
 
 struct Game {
-    utility: Utility,
     color: Color,
+    timer: Timer,
 }
 
 impl Game {
-    pub fn new(_context: &mut Context) -> Game {
-        let mut utility = Utility::new();
-
+    pub fn new() -> Game {
         Game {
-            utility,
-            color: utility.random_dark_color(),
+            color: random_bright_color(),
+            timer: Timer::new(1.0),
         }
     }
 }
 
 impl EventHandler for Game {
     fn update(&mut self, context: &mut Context) -> GameResult<()> {
-        if timer::ticks(context) % 1000 == 0 {
-            self.color = self.utility.random_bright_color();
+        self.timer.update(context);
+        if self.timer.is_time_up() {
+            self.color = random_bright_color();
+            self.timer.reset();
         }
 
         Ok(())
@@ -36,13 +38,8 @@ impl EventHandler for Game {
 
         let (width, height) = graphics::drawable_size(context);
 
-        let triangle = self.utility.create_equilateral_triangle(
-            width / 2.0,
-            height / 2.0,
-            300.0,
-            self.color,
-            context,
-        );
+        let triangle =
+            create_equilateral_triangle(width / 2.0, height / 2.0, 300.0, self.color, context);
 
         graphics::draw(context, &triangle, (Point2::new(0.0, 0.0),))?;
 
@@ -51,13 +48,7 @@ impl EventHandler for Game {
 }
 
 fn main() {
-    let (mut context, mut event_loop) = ContextBuilder::new("Random color example", "Brookzerker")
-        .build()
-        .expect("Game context was not able to be created");
-    let mut game = Game::new(&mut context);
+    let mut game = Game::new();
 
-    match event::run(&mut context, &mut event_loop, &mut game) {
-        Ok(_) => println!("Exited cleanly"),
-        Err(error) => println!("Error occured: {}", error),
-    };
+    run(&mut game, "Create Triangle", "bbggez")
 }
